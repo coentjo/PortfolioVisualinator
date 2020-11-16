@@ -1,0 +1,19 @@
+Class {
+	#name : #PortfolioOrganizer,
+	#superclass : #Object,
+	#classInstVars : [
+		'default'
+	],
+	#category : #cmbPortfolioBrowser
+}
+
+{ #category : #singleton }
+PortfolioOrganizer class >> default [
+	^ default ifNil: [ default := self new ]
+]
+
+{ #category : #'as yet unclassified' }
+PortfolioOrganizer >> solutionsInDirectory: aFileReference [
+
+	^ aFileReference allChildrenMatching: '*.sln'
+]
