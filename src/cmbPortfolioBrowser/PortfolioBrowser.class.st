@@ -43,14 +43,19 @@ PortfolioBrowser >> buildBrowser [
 	browser := GLMTabulator new.
 	browser
 		column: #solutions;
-		column: #projects.
+		column: #projects;
+		column: #sourceFiles.
 	browser transmit
 		to: #solutions;
 		andShow: [ :a | self solutions: a ].
-	browser transmit 
+	browser transmit
 		from: #solutions;
 		to: #projects;
-		andShow: [ :a | self projectsIn: a ]
+		andShow: [ :a | self projectsIn: a ].
+	browser transmit 
+		from: #projects;
+		to: #sourceFiles;
+		andShow: [ :a | self sourceFilesIn: a ]. 
 ]
 
 { #category : #action }
@@ -91,4 +96,17 @@ PortfolioBrowser >> solutions: constructor [
 { #category : #hierarchy }
 PortfolioBrowser >> solutionsOn: organizer [ 
 	^ organizer solutionsInDirectory: self baseDirectory 
+]
+
+{ #category : #hierarchy }
+PortfolioBrowser >> sourceFilesIn: constructor [
+	constructor list
+		display: [ :organizer | self sourceFilesOn: organizer ];
+		format: #asString
+]
+
+{ #category : #hierarchy }
+PortfolioBrowser >> sourceFilesOn: organizer [
+	"organizer is FileReference on a csproj"
+	^ self organizer sourcesInDirectory: organizer parent
 ]

@@ -22,3 +22,8 @@ PortfolioOrganizer >> solutionsInDirectory: aFileReference [
 
 	^ aFileReference allChildrenMatching: '*.sln'
 ]
+
+{ #category : #hierarchy }
+PortfolioOrganizer >> sourcesInDirectory: aFileReference [ 
+	^ aFileReference allChildrenMatching: '*.cs'
+]
