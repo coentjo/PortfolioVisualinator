@@ -13,6 +13,11 @@ PortfolioOrganizer class >> default [
 ]
 
 { #category : #'as yet unclassified' }
+PortfolioOrganizer >> projectsInDirectory: aFileReference [
+	^ aFileReference allChildrenMatching: '*.csproj'
+]
+
+{ #category : #'as yet unclassified' }
 PortfolioOrganizer >> solutionsInDirectory: aFileReference [
 
 	^ aFileReference allChildrenMatching: '*.sln'

@@ -41,10 +41,16 @@ PortfolioBrowser >> baseDirectory: aDirectory [
 { #category : #action }
 PortfolioBrowser >> buildBrowser [
 	browser := GLMTabulator new.
-	browser column: #solutions.
+	browser
+		column: #solutions;
+		column: #projects.
 	browser transmit
 		to: #solutions;
-		andShow: [ :a | self solutions: a ]
+		andShow: [ :a | self solutions: a ].
+	browser transmit 
+		from: #solutions;
+		to: #projects;
+		andShow: [ :a | self projectsIn: a ]
 ]
 
 { #category : #action }
@@ -56,6 +62,22 @@ PortfolioBrowser >> open [
 { #category : #accessing }
 PortfolioBrowser >> organizer [
 	^ "RPackageOrganizer" PortfolioOrganizer default
+	
+]
+
+{ #category : #hierarchy }
+PortfolioBrowser >> projectsIn: constructor [
+	constructor list
+		display: [ :organizer | self projectsOn: organizer ];
+		format: #asString
+]
+
+{ #category : #hierarchy }
+PortfolioBrowser >> projectsOn: organizer [
+	"organizer is a FileReference of a .sln-file"
+	| solutionDir |
+	solutionDir := organizer parent.
+	^ self organizer projectsInDirectory: solutionDir
 	
 ]
 
