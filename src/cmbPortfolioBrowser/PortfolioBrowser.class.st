@@ -52,10 +52,11 @@ PortfolioBrowser >> buildBrowser [
 		from: #solutions;
 		to: #projects;
 		andShow: [ :a | self projectsIn: a ].
-	browser transmit 
+	browser transmit
 		from: #projects;
 		to: #sourceFiles;
-		andShow: [ :a | self sourceFilesIn: a ]. 
+		andShow: [ :a | self sourceFilesIn: a ].
+	^ browser 
 ]
 
 { #category : #action }
