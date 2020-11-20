@@ -25,5 +25,20 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #PortfolioVisoginator,
 	#superclass : #Object,
+	#instVars : [
+		'baseDirectory'
+	],
 	#category : #cmbPortfolioBrowser
 }
+
+{ #category : #'instance creation' }
+PortfolioVisoginator class >> openOn: aString [ 
+	^ self new 
+		baseDirectory: aString asFileReference ;
+		yourself
+]
+
+{ #category : #accessing }
+PortfolioVisoginator >> baseDirectory: aFileReference [
+	baseDirectory := aFileReference
+]

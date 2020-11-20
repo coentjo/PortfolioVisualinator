@@ -12,12 +12,12 @@ PortfolioOrganizer class >> default [
 	^ default ifNil: [ default := self new ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #hierarchy }
 PortfolioOrganizer >> projectsInDirectory: aFileReference [
 	^ aFileReference allChildrenMatching: '*.csproj'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #hierarchy }
 PortfolioOrganizer >> solutionsInDirectory: aFileReference [
 
 	^ aFileReference allChildrenMatching: '*.sln'
