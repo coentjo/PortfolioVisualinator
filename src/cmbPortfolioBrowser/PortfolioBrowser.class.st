@@ -44,7 +44,8 @@ PortfolioBrowser >> buildBrowser [
 	browser
 		column: #solutions;
 		column: #projects;
-		column: #sourceFiles.
+		column: #sourceFiles;
+		column: #fileContent.
 	browser transmit
 		to: #solutions;
 		andShow: [ :a | self solutions: a ].
@@ -56,7 +57,18 @@ PortfolioBrowser >> buildBrowser [
 		from: #projects;
 		to: #sourceFiles;
 		andShow: [ :a | self sourceFilesIn: a ].
-	^ browser 
+	browser transmit 
+		from: #sourceFiles;
+		to: #fileContent;
+		andShow: [ :a | self contentOfFile: a ] .
+	^ browser
+]
+
+{ #category : #hierarchy }
+PortfolioBrowser >> contentOfFile: constructor [ 
+	constructor text 
+		display: [ :fileRef |
+			fileRef contents ]
 ]
 
 { #category : #action }
