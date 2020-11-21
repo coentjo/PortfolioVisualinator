@@ -26,19 +26,56 @@ Class {
 	#name : #PortfolioVisoginator,
 	#superclass : #Object,
 	#instVars : [
-		'baseDirectory'
+		'baseDirectory',
+		'browser'
 	],
 	#category : #cmbPortfolioBrowser
 }
 
 { #category : #'instance creation' }
-PortfolioVisoginator class >> openOn: aString [ 
-	^ self new 
-		baseDirectory: aString asFileReference ;
-		yourself
+PortfolioVisoginator class >> openOn: aString [
+	^ self new
+		baseDirectory: aString asFileReference;
+		open
+]
+
+{ #category : #accessing }
+PortfolioVisoginator >> baseDirectory [
+	^ baseDirectory
 ]
 
 { #category : #accessing }
 PortfolioVisoginator >> baseDirectory: aFileReference [
 	baseDirectory := aFileReference
+]
+
+{ #category : #accessing }
+PortfolioVisoginator >> buildBrowser [
+	browser := GLMTabulator new.
+	browser 
+		row: #navigator;
+		row: #source.
+	browser transmit 
+		to: #navigator;
+		andShow: [ :a | self navigatorIn: a ]
+]
+
+{ #category : #'accessingas yet unclassified' }
+PortfolioVisoginator >> navigatorIn: constructor [
+	| portfolioBrowser |
+	portfolioBrowser := PortfolioBrowser new.
+	portfolioBrowser
+		baseDirectory: self baseDirectory.
+	constructor custom: portfolioBrowser
+]
+
+{ #category : #action }
+PortfolioVisoginator >> open [
+	self buildBrowser.
+	browser openOn: self organizer
+]
+
+{ #category : #hierarchy }
+PortfolioVisoginator >> organizer [
+	^ PortfolioOrganizer default 
 ]
