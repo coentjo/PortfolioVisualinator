@@ -79,8 +79,7 @@ PortfolioBrowser >> open [
 
 { #category : #accessing }
 PortfolioBrowser >> organizer [
-	^ "RPackageOrganizer" PortfolioOrganizer default
-	
+	^ PortfolioOrganizer default	
 ]
 
 { #category : #hierarchy }
