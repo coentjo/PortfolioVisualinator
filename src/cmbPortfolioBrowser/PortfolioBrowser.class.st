@@ -86,7 +86,7 @@ PortfolioBrowser >> organizer [
 PortfolioBrowser >> projectsIn: constructor [
 	constructor list
 		display: [ :organizer | self projectsOn: organizer ];
-		format: #asString
+		format: #ageAndbasename
 ]
 
 { #category : #hierarchy }
@@ -102,7 +102,7 @@ PortfolioBrowser >> projectsOn: organizer [
 PortfolioBrowser >> solutions: constructor [
 	constructor list
 		display: [ :organizer | (self solutionsOn: organizer) asSet sorted ];
-		format: #basename 
+		format: #ageAndbasename
 ]
 
 { #category : #hierarchy }
@@ -114,7 +114,7 @@ PortfolioBrowser >> solutionsOn: organizer [
 PortfolioBrowser >> sourceFilesIn: constructor [
 	constructor list
 		display: [ :organizer | self sourceFilesOn: organizer ];
-		format: #asString
+		format: #ageAndbasename
 ]
 
 { #category : #hierarchy }
