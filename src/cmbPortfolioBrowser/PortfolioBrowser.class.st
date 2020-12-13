@@ -47,7 +47,8 @@ PortfolioBrowser >> buildBrowser [
 		column: #solutions;
 		column: #projects;
 		column: #sourceFiles;
-		column: #fileContent.
+		column: #fileContent;
+		column: #feedback.
 	browser transmit
 		to: #solutions;
 		andShow: [ :a | self solutions: a ].
@@ -63,6 +64,10 @@ PortfolioBrowser >> buildBrowser [
 		from: #sourceFiles;
 		to: #fileContent;
 		andShow: [ :a | self contentOfFile: a ].
+	browser transmit
+		from: #sourceFiles;
+		to: #feedback;
+		andShow: [ :a | self showFeedback: a ].
 	^ browser
 ]
 
@@ -71,15 +76,30 @@ PortfolioBrowser >> contentOfFile: constructor [
 
 	constructor text
 		display: [ :fileRef | fileRef contents ];
-		act: [ :a :fileRef | 
-			self registerMethodIn: fileRef ]
-		on: $m entitled: 'method'
+		act: [ :a :fileRef | self registerMethodIn: fileRef ]
+		on: $m
+		entitled: 'method';
+		act: [ :a :fileRef | self registerParamIn: fileRef ]
+		on: $p
+		entitled: 'parameter';
+		act: [ :a :fileRef | self registerReturnValuesIn:  fileRef ]
+		on: $m
+		entitled: 'returnValue'
 ]
 
 { #category : #annotate }
 PortfolioBrowser >> feedback [
-feedback inspect.
+
 	^ feedback ifNil: [ feedback := Dictionary new ]
+]
+
+{ #category : #printing }
+PortfolioBrowser >> feedbackAsString [
+
+	| stream |
+	stream := WriteStream on: String new.
+	self feedback keys do: [ :key | stream nextPutAll: key asString ].
+	^ stream contents
 ]
 
 { #category : #action }
@@ -113,8 +133,33 @@ PortfolioBrowser >> projectsOn: organizer [
 PortfolioBrowser >> registerMethodIn: aFileReference [
 
 	^ (self feedback
-		   at: #methodsFound
+		   at: #methods
 		   ifAbsentPut: [ OrderedCollection new ]) add: aFileReference
+]
+
+{ #category : #annotating }
+PortfolioBrowser >> registerParamIn: aFileReference [
+
+	^ (self feedback at: #parameters ifAbsentPut: [ OrderedCollection new ]) 
+		  add: aFileReference
+]
+
+{ #category : #annotating }
+PortfolioBrowser >> registerReturnValuesIn: aFileReference [
+
+	^ (self feedback
+		   at: #returnValues
+		   ifAbsentPut: [ OrderedCollection new ]) add: aFileReference
+]
+
+{ #category : #hierarchy }
+PortfolioBrowser >> showFeedback: constructor [
+
+	constructor text
+		display: [ :x | self feedbackAsString ];
+		act: [ :a :fileRef | self feedback inspect ]
+		on: $s
+		entitled: 'save'
 ]
 
 { #category : #hierarchy }
