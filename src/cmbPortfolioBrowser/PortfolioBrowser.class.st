@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'baseDirectory',
-		'browser'
+		'browser',
+		'feedback'
 	],
 	#category : #cmbPortfolioBrowser
 }
@@ -21,7 +22,7 @@ PortfolioBrowser class >> open [
 
 { #category : #'instance creation' }
 PortfolioBrowser class >> openOn: aDirectoryPath [
-	"self openOn: '/Users/coen/DownloadSubmissions' "
+	"self openOn: '/Users/coen/DownloadsCanvas' "
 
 	^ self new
 		baseDirectory: aDirectoryPath;
@@ -40,6 +41,7 @@ PortfolioBrowser >> baseDirectory: aDirectory [
 
 { #category : #action }
 PortfolioBrowser >> buildBrowser [
+
 	browser := GLMTabulator new.
 	browser
 		column: #solutions;
@@ -57,18 +59,27 @@ PortfolioBrowser >> buildBrowser [
 		from: #projects;
 		to: #sourceFiles;
 		andShow: [ :a | self sourceFilesIn: a ].
-	browser transmit 
+	browser transmit
 		from: #sourceFiles;
 		to: #fileContent;
-		andShow: [ :a | self contentOfFile: a ] .
+		andShow: [ :a | self contentOfFile: a ].
 	^ browser
 ]
 
 { #category : #hierarchy }
-PortfolioBrowser >> contentOfFile: constructor [ 
-	constructor text 
-		display: [ :fileRef |
-			fileRef contents ]
+PortfolioBrowser >> contentOfFile: constructor [
+
+	constructor text
+		display: [ :fileRef | fileRef contents ];
+		act: [ :a :fileRef | 
+			self registerMethodIn: fileRef ]
+		on: $m entitled: 'method'
+]
+
+{ #category : #annotate }
+PortfolioBrowser >> feedback [
+feedback inspect.
+	^ feedback ifNil: [ feedback := Dictionary new ]
 ]
 
 { #category : #action }
@@ -96,6 +107,14 @@ PortfolioBrowser >> projectsOn: organizer [
 	solutionDir := organizer parent.
 	^ self organizer projectsInDirectory: solutionDir
 	
+]
+
+{ #category : #annotating }
+PortfolioBrowser >> registerMethodIn: aFileReference [
+
+	^ (self feedback
+		   at: #methodsFound
+		   ifAbsentPut: [ OrderedCollection new ]) add: aFileReference
 ]
 
 { #category : #hierarchy }
