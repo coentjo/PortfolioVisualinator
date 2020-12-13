@@ -68,6 +68,7 @@ PortfolioBrowser >> buildBrowser [
 		from: #sourceFiles;
 		to: #feedback;
 		andShow: [ :a | self showFeedback: a ].
+	"from: #sourceFiles;"
 	^ browser
 ]
 
@@ -98,7 +99,13 @@ PortfolioBrowser >> feedbackAsString [
 
 	| stream |
 	stream := WriteStream on: String new.
-	self feedback keys do: [ :key | stream nextPutAll: key asString ].
+	self feedback keys do: [ :key | 
+		stream
+			nextPutAll: '-------------------';
+			nextPutAll: key asString;
+			crtab .
+			(self feedback at: key) do: [:fileRef | 
+				stream nextPutAll: fileRef basename ; cr ]].
 	^ stream contents
 ]
 
