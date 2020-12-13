@@ -154,7 +154,7 @@ PortfolioBrowser >> registerParamIn: aFileReference [
 { #category : #annotating }
 PortfolioBrowser >> registerReturnValuesIn: aFileReference [
 
-	^ (self feedback
+	(self feedback
 		   at: #returnValues
 		   ifAbsentPut: [ OrderedCollection new ]) add: aFileReference
 ]
