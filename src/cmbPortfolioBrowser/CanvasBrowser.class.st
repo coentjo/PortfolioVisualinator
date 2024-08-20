@@ -7,6 +7,13 @@ Class {
 	#category : #cmbPortfolioBrowser
 }
 
+{ #category : #accessing }
+CanvasBrowser class >> exampleDirtyCnvs [
+	<gtExample>
+	self openOn: 
+'https://fhict.instructure.com/courses/13666'
+]
+
 { #category : #'instance creation' }
 CanvasBrowser class >> openOn: aString [ 
 	^ self new 

@@ -13,7 +13,7 @@ Class {
 PortfolioBrowser class >> open [
 	"self open"
 	| dir |
-	dir := '/Users/coen/DownloadSubmissions'. 
+	dir := FileLocator home / 'DownloadSubmissions'. 
 	dir := (UIManager default
 		chooseDirectory: 'Choose directory'
 		path: dir) ifNil: [ '.' ].
